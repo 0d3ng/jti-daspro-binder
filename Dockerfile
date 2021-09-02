@@ -1,13 +1,16 @@
-FROM openjdk:18-slim
+FROM openjdk:18-jdk-alpine3.13
 
-RUN apt-get update
-RUN apt-get install -y python3-pip python3.9 curl unzip
+# Install python/pip
+ENV PYTHONUNBUFFERED=1
+RUN apk add python3-dev=3.6.9-r3 --repository=http://dl-cdn.alpinelinux.org/alpine/v3.9/main
+RUN apk add --update --no-cache python3 gcc g++ zeromq-dev && ln -sf python3 /usr/bin/python
+RUN python3 -m ensurepip
+RUN pip3 install --no-cache --upgrade pip setuptools
 
 # add requirements.txt, written this way to gracefully ignore a missing file
 COPY . .
 RUN ([ -f requirements.txt ] \
-    && pip3 install --no-cache-dir -r requirements.txt) \
-        || pip3 install --no-cache-dir jupyter jupyterlab
+    && pip3 install --no-cache-dir -r requirements.txt --ignore-installed six)
 
 USER root
 
@@ -17,7 +20,7 @@ RUN curl -L https://github.com/SpencerPark/IJava/releases/download/v1.3.0/ijava-
 # Unpack and install the kernel
 RUN unzip ijava-kernel.zip -d ijava-kernel \
   && cd ijava-kernel \
-  && python3 install.py --sys-prefix
+  && python install.py --sys-prefix
 
 # Set up the user environment
 
