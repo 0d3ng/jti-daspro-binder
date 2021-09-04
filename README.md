@@ -1,4 +1,4 @@
-# jti-daspro-binder
+# JTI Dasar Pemrograman Menggunakan Binder
 Tool online untuk membantu pembelajaran mata kuliah dasar pemrograman Java menggunakan jupyter notebook
 
 Klik link di bawah ini untuk menjalankan
