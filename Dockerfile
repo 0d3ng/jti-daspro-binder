@@ -1,5 +1,6 @@
 FROM openjdk:18-slim
 
+# update repository
 RUN apt-get update
 RUN apt-get install -y python3-pip python3.9 curl unzip
 
