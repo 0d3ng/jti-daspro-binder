@@ -1,28 +1,23 @@
-FROM openjdk:18-jdk-alpine3.13
+FROM openjdk:18-slim
 
-# Install python/pip
-ENV PYTHONUNBUFFERED=1
-RUN apk add python3-dev=3.6.9-r3 --repository=http://dl-cdn.alpinelinux.org/alpine/v3.9/main
-RUN apk add --update --no-cache python3 py-pip python3-dev libffi-dev gcc g++ zeromq-dev && ln -sf python3 /usr/bin/python
-RUN python3 -m ensurepip
-RUN pip3 install --no-cache --upgrade pip
+RUN apt-get update
+RUN apt-get install -y python3-pip python3.9 curl unzip
 
 # add requirements.txt, written this way to gracefully ignore a missing file
 COPY . .
 RUN ([ -f requirements.txt ] \
-    && pip3 install --no-cache-dir -r requirements.txt --ignore-installed six)
+    && pip3 install --no-cache-dir -r requirements.txt) \
+        || pip3 install --no-cache-dir jupyter jupyterlab
 
 USER root
 
 # Download the kernel release
-RUN wget https://github.com/SpencerPark/IJava/releases/download/v1.3.0/ijava-1.3.0.zip && \
-  unzip ijava-1.3.0.zip -d ijava-kernel && \
-  python ijava-kernel/install.py --sys-prefix
+RUN curl -L https://github.com/SpencerPark/IJava/releases/download/v1.3.0/ijava-1.3.0.zip > ijava-kernel.zip
 
 # Unpack and install the kernel
-#RUN unzip ijava-kernel.zip -d ijava-kernel \
-#  && cd ijava-kernel \
-#  && python install.py --sys-prefix
+RUN unzip ijava-kernel.zip -d ijava-kernel \
+  && cd ijava-kernel \
+  && python3 install.py --sys-prefix
 
 # Set up the user environment
 
