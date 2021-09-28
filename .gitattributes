@@ -1,2 +1,8 @@
+<<<<<<< HEAD
 Dockerfile merge=ours
 requirements.txt merge=ours
+=======
+./Dockerfile merge=ours
+./requirements.txt merge=ours
+./README.md merge=ours
+>>>>>>> f552770a103bba7c99b05d32dac1e468749e90f7
