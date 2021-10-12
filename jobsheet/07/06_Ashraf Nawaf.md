@@ -485,7 +485,7 @@ System.out.println("Rata-rata angka yang kurang dari 50: "+avg);
 - Percobaan 2
 Menggunakan break sebagai pemberhenti loop
 - Percobaan 3
-enggunakan continue yang berfungsi untuk melewati kode program jika suatu kondisi terpenuhi
+enggunakan continue yang berfungsi untuk melewati kode program jika suatu kondisi terpenuhi. 
 
 2. Jelaskan apa fungsi perintah kode program dibawah ini?
 <p align="left">
